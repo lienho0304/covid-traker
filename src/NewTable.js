@@ -1,16 +1,20 @@
 import React from "react";
+import { makePrettyer2 } from "./utils";
 
 function NewTable(countries) {
   return (
     <div className="table">
       <table>
         {countries.countries.map(({ country, cases }, key) => (
-          <tr key={key}>
+          <tbody key={key}>
+          <tr >
             <td>{country}</td>
             <td>
-              <strong>{cases}</strong>
+              <strong>{makePrettyer2(cases)}</strong> 
+          
             </td>
           </tr>
+          </tbody>
         ))}
       </table>
     </div>

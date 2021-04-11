@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 
-function LineGrraph({typeCases}) {
+function LineGrraph({ typeCases }) {
   const [data, setData] = useState({});
-  
+
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=30")
       .then((response) => response.json())
@@ -50,30 +50,29 @@ function LineGrraph({typeCases}) {
           },
         },
       ],
-      yAxes :[
+      yAxes: [
         {
-          gridLines:{
-            display:false,
+          gridLines: {
+            display: false,
           },
-          ticks:{
-            callback:function (value,index,values) {
-              return numeral(value).format("0a")
-            }
-          }
-        }
-      ]
+          ticks: {
+            callback: function (value, index, values) {
+              return numeral(value).format("0.0a");
+            },
+          },
+        },
+      ],
     },
   };
 
   const dataForChart = (canvas) => {
-
     return {
-      backgroundColor:'red',
+      backgroundColor: "red",
       labels,
       datasets: [
-        { 
-          backgroundColor:'green',
-         
+        {
+          backgroundColor: "green",
+
           label: "# of Votessasddddddddddddddddddddddd",
           data: newdata,
           borderWidth: 3,
@@ -92,4 +91,3 @@ function LineGrraph({typeCases}) {
 }
 
 export default LineGrraph;
-

@@ -11,7 +11,7 @@ import {
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import NewTable from "./NewTable";
-import { makePrettyer, sortData } from "./utils";
+import { makePrettyer, sortData, makePrettyer2 } from "./utils";
 import LineGrraph from "./LineGrraph";
 import "leaflet/dist/leaflet.css";
 function App() {
@@ -23,7 +23,7 @@ function App() {
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
   const [typeCases, setTypeCases] = useState("cases");
-
+  const [co,setCo] = useState('cases')
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
       .then((response) => response.json())
@@ -72,6 +72,12 @@ function App() {
     setCountry(countryCode);
   };
 
+  const setColor = (color) => {
+    setCo(color)
+    setTypeCases(color)
+  }
+
+
   return (
     <div className="app">
       <div className="app__left">
@@ -95,28 +101,28 @@ function App() {
         </div>
         <div className="app__stats">
           <InfoBox
-              active={typeCases === "cases"}
+            active={typeCases === "cases"}
             className="infobox"
-            onClick={(e) => setTypeCases("cases")}
+            onClick={(e) => setColor("cases")}
             title="Coronavirus Cases"
             cases={makePrettyer(countryInfo.todayCases)}
-            total={countryInfo.cases}
+            total={makePrettyer2(countryInfo.cases)}
           />
           <InfoBox
-                 active={typeCases === "recovered"}
+            active={typeCases === "recovered"}
             className="infobox"
-            onClick={(e) => setTypeCases("recovered")}
+            onClick={(e) => setColor("recovered")}
             title="Recovered"
             cases={makePrettyer(countryInfo.todayRecovered)}
-            total={countryInfo.recovered}
+            total={makePrettyer2(countryInfo.recovered)}
           />
           <InfoBox
            active={typeCases === "deaths"}
             className="infobox"
-            onClick={(e) => setTypeCases("deaths")}
+            onClick={(e) => setColor("deaths")}
             title="Deaths"
             cases={makePrettyer(countryInfo.todayDeaths)}
-            total={countryInfo.deaths}
+            total={makePrettyer2(countryInfo.deaths)}
           />
         </div>
         <Map
@@ -124,6 +130,7 @@ function App() {
           zoom={mapZoom}
           countries={mapCountries}
           typeCases={typeCases}
+          color = {co}
         />
       </div>
       <Card className="app__right">
